@@ -33,10 +33,11 @@ body
   +lte_ipad
     background: none !important
 
-  &.chrome
-    text-rendering: auto
   &.no-smileys .smiley
     display: none
+
+html.chrome body
+  text-rendering: auto
 
 html.turbolinks-progress-bar:before
   z-index: 9999 !important

@@ -1,6 +1,6 @@
 div
   .tooltip-inner
-    .tooltip-arrow
+    .tooltip-arrow: .border-fix
     .clearfix
       .close
       a.link
@@ -9,11 +9,3 @@ div
           = render partial: template_name, locals: objects, formats: :html
         - else
           .ajax-loading title="#{t 'loading'}"
-    .dropshadow-top
-    .dropshadow-top-right
-    .dropshadow-right
-    .dropshadow-bottom-right
-    .dropshadow-bottom
-    .dropshadow-bottom-left
-    .dropshadow-left
-    .dropshadow-top-left

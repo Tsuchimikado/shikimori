@@ -2,10 +2,10 @@
 @import "mixins/retina";
 
 .tooltip-inner {
-  background: #F7F7F7;
-  background: none repeat scroll 0 0 white;
-  border: 1px solid #999999;
-  color: #333333;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  background: none repeat scroll 0 0 #fff;
+  border: 1px solid #999;
+  color: #333;
   font-size: 13px;
   height: auto !important;
   margin-top: 4px;
@@ -25,8 +25,7 @@
   z-index: 2000!important;
 }
 .tooltip-default {
-  /*background: url("/images/tooltip/black_arrow.png") repeat scroll 0 0 transparent;*/
-  color: #FFFFFF;
+  color: #fff;
   display: none;
   height: 80px;
   margin-bottom: 10px;
@@ -56,112 +55,159 @@
     list-style-position: inside!important;
   }
 }
-.tooltip-img {
-  float: left;
-  padding: 0 10px 10px 0;
-}
-.tooltip-restrictions {
-  border-bottom:1px solid #DDDDDD;
-  color:#333333;
-  font-size:11px;
-  font-style:italic;
-  margin:0 20px 10px 0;
-  padding-bottom:2px;
-}
-.tooltip-metadata div {
-  color:#333333;
-  font-size:12px;
-  margin-top:5px;
-}
-
 .tooltip-arrow {
-  @include background-inline-retina('/assets/bubble/popup-arrow-left', 'png', 22px, 26px);
-  height:26px;
-  position:absolute;
-  right:100%;
-  top:40px;
-  width:22px;
-  z-index:10;
-}
-.tooltip-left .tooltip-arrow {
-  @include background-inline-retina('/assets/bubble/popup-arrow-right', 'png', 22px, 26px);
-  left: 100%;
-  right: none;
-}
-.tooltip-moved .tooltip-arrow {
-  display: none;
+  background: #fff;
+  position: absolute;
+  right: 100%;
+  top: 40px;
+  z-index: 10;
+
+  .tooltip-left & {
+    right: inherit;
+    left: 100%;
+  }
+  .tooltip-moved & {
+    display: none;
+  }
 }
 
-.dropshadow-top {
-  background: image_url("/assets/bubble/dropshadow/top.png") repeat-x scroll 0 0 transparent;
-  height: 19px;
-  left: 0;
-  position: absolute;
-  top: -19px;
-  width: 100%;
-  z-index: -1;
+// раскоментить, когда в хроме починят баг с filter: box-shadow
+// (у левой стрелки отображается однопиксельная полоска справа)
+// safari & ie has issues with rendering filter: drop-shadow with clipping
+.chrome, .firefox {
+  .tooltip-arrow .arrow {
+    // @include filter(drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3)));
+    // clip: rect(-30px, 0px, 30px, -30px);
+  }
+  .tooltip-left .tooltip-arrow .arrow {
+    // clip: rect(-30px, 30px, 30px, 0px);
+  }
 }
-.dropshadow-top-right {
-  background: image_url("/assets/bubble/dropshadow/top-right.png") no-repeat scroll 0 0 transparent;
-  height: 19px;
-  position: absolute;
-  right: -19px;
-  top: -19px;
-  width: 19px;
-  z-index: -1;
+
+// .border-fix {
+  // background: #fff;
+  // height: 26px;
+  // left: 0;
+  // position: absolute;
+  // top: -13px;
+  // width: 1px;
+// }
+.tooltip-arrow {
+  &:before {
+    background: #fff;
+    content: '';
+    height: 26px;
+    left: -1px;
+    position: absolute;
+    top: -13px;
+    width: 3px;
+    z-index: 1;
+  }
+  .tooltip-left &:before {
+    left: -2px;
+  }
+  .arrow {
+    &:after, &:before {
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      pointer-events: none;
+      position: absolute;
+      right: 100%;
+      top: 50%;
+      width: 0;
+    }
+    &:after {
+      border-color: rgba(255, 255, 255, 0);
+      border-right-color: #fff;
+      border-width: 14px;
+      margin-top: -14px;
+    }
+    &:before {
+      @include filter(drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3)));
+      border-color: rgba(153, 153, 153, 0);
+      border-right-color: #999;
+      border-width: 15px;
+      margin-top: -15px;
+    }
+    .tooltip-left & {
+      &:after, &:before {
+        right: inherit;
+        left: 100%;
+      }
+      &:after {
+        border-left-color: #fff;
+        border-right-color: transparent;
+      }
+      &:before {
+        border-left-color: #999;
+        border-right-color: transparent;
+      }
+    }
+  }
 }
-.dropshadow-right {
-  background: image_url("/assets/bubble/dropshadow/right.png") repeat-y scroll 0 0 transparent;
-  height: 100%;
-  position: absolute;
-  right: -19px;
-  top: 0;
-  width: 19px;
-  z-index: -1;
-}
-.dropshadow-bottom-right {
-  background: image_url("/assets/bubble/dropshadow/bottom-right.png") no-repeat scroll 0 0 transparent;
-  bottom: -19px;
-  height: 19px;
-  position: absolute;
-  right: -19px;
-  width: 19px;
-  z-index: -1;
-}
-.dropshadow-bottom {
-  background: image_url("/assets/bubble/dropshadow/bottom.png") repeat-x scroll 0 0 transparent;
-  clear: both;
-  bottom: -19px;
-  height: 19px;
-  left: 0;
-  position: absolute;
-  width: 100%;
-  z-index: -1;
-}
-.dropshadow-bottom-left {
-  background: image_url("/assets/bubble/dropshadow/bottom-left.png") no-repeat scroll 0 0 transparent;
-  bottom: -19px;
-  height: 19px;
-  left: -19px;
-  position: absolute;
-  width: 19px;
-  z-index: -1;
-}
-.dropshadow-left {
-  background: image_url("/assets/bubble/dropshadow/left.png") repeat-y scroll 0 0 transparent;
-  height: 100%;
-  left: -19px;
-  position: absolute;
-  top: 0;
-  width: 19px;
-  z-index: -1;
-}
-.dropshadow-top-left {
-  background: image_url("/assets/bubble/dropshadow/top-left.png") no-repeat scroll 0 0 transparent;
-  height: 19px;
-  left: -19px;
-  position: absolute;
-  top: -19px;
-  width: 19px;
-  z-index: -1;
-}
+
+
+// // safari & ie has issues with rendering filter: drop-shadow with clipping
+// .chrome, .firefox {
+  // .tooltip-arrow {
+    // @include filter(drop-shadow(-2px -2px 3px rgba(0, 0, 0, 0.3)));
+    // clip: rect(-30px, 30px, 30px, 0px);
+  // }
+  // .tooltip-left .tooltip-arrow {
+    // @include filter(drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3)));
+  // }
+// }
+// .tooltip-arrow {
+  // @include transform(rotate(180deg));
+  // &:after, &:before {
+    // border: solid transparent;
+    // content: " ";
+    // height: 0;
+    // pointer-events: none;
+    // position: absolute;
+    // left: 100%;
+    // top: 50%;
+    // width: 0;
+  // }
+  // &:after {
+    // border-left-color: #fff;
+    // border-width: 14px;
+    // margin-top: -14px;
+  // }
+  // &:before {
+    // border-left-color: #999;
+    // border-width: 15px;
+    // margin-top: -15px;
+  // }
+// }
+// .tooltip-left .tooltip-arrow {
+  // @include transform(none);
+// }
+
+
+// .tooltip-arrow {
+  // .border {
+  // }
+  // .shadow {
+    // content: "";
+    // position: absolute;
+    // width: 0;
+    // height: 0;
+    // margin-top: -15px;
+    // box-sizing: border-box;
+    // border: 1em solid black;
+    // border-color: transparent transparent #fff #fff;
+    // transform-origin: 0 0;
+    // transform: rotate(45deg);
+    // box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  // }
+
+  // .tooltip-left & {
+    // .shadow {
+      // border-color: #fff #fff transparent transparent;
+      // // transform: rotate(225deg);
+      // // box-shadow: -2px -2px 10px rgba(0, 0, 0, 0.3);
+    // }
+  // }
+// }
